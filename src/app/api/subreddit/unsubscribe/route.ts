@@ -26,12 +26,14 @@ export async function POST(req: Request) {
       const subreddit = await db.subreddit.create({
         data: {
           name,
+          //@ts-ignore
           creatorId: session.user.id,
         },
       })
   
       await db.subscription.create({
         data: {
+            //@ts-ignore
           userId: session.user.id,
           subredditId: subreddit.id,
         },
