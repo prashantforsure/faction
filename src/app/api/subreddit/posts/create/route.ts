@@ -40,5 +40,12 @@ export async function POST(req: NextRequest){
                 subredditId,
             }
         })
+        return NextResponse.json({
+            message: "posted"
+        })
+    }catch(e){
+        return NextResponse.json({
+            message: "something went wrong"
+        })
     }
 }
