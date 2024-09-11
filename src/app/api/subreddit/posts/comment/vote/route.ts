@@ -1,7 +1,7 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { CommentVoteValidator, PostVoteValidator } from '@/lib/validators/vote';
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { z } from 'zod'
 
@@ -45,9 +45,25 @@ export async function PATCH(req: NextRequest){
                       },
                 }, 
                 data: {
-                    
+                    type: voteType,
                 }
             })
         }
+        await db.commentVote.create({
+            data: {
+                commentId,
+                //@ts-ignore
+                userId: session.user.id,
+                type: voteType
+
+            }
+        })
+        return new Response('done', { status: 200 })
+    }catch(e){
+        return NextResponse.json({
+            message: "something went wrong"
+          },{
+            status: 500
+          })
     }
 }

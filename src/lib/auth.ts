@@ -3,7 +3,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { nanoid } from 'nanoid'
 import { NextAuthOptions, getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-
+import { Session } from "next-auth"
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -19,13 +19,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
-      if (token) {
-        session.user.id = token.id
+    async session({ token, session }: { token: JWT, session: Session }): Promise<Session> {
+      if (token && session.user) {
+        session.user.id = token.id as string
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
-        session.user.username = token.username
+        session.user.username = token.username as string
       }
 
       return session
