@@ -7,7 +7,7 @@ import Navbar from '@/components/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Breadit',
+  title: 'faction',
   description: 'A Reddit clone built with Next.js and TypeScript.',
 }
 
