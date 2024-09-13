@@ -23,12 +23,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ token, session }: { token: JWT, session: Session }): Promise<Session> {
       if (token && session.user) {
-        //@ts-ignore
         session.user.id = token.id as string
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
-        //@ts-ignore
         session.user.username = token.username as string
       }
 
