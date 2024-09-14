@@ -13,7 +13,7 @@ export function UserAvatar({ user, ...props }: UserAvatarProps) {
     <Avatar {...props}>
       {user.image ? (
         <div className='relative aspect-square h-full w-full'>
-       <CircleUserRound  className="h-8 w-8 mr-2 bg-black"/>
+       <CircleUserRound  className="h-8 w-8 mr-2 "/>
        <span>menu</span>
         </div>
       ) : (
