@@ -6,6 +6,12 @@ import React, { ReactNode } from 'react'
 import { Link } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import SubscribeLeaveToggle from '@/components/SubscribeLeaveToggle';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Breadit',
+  description: 'A Reddit clone built with Next.js and TypeScript.',
+}
 
 const layout = async ({ children, params: { slug } }: { children: ReactNode, params: {slug : string}  }) => {
   const session = await getAuthSession();
@@ -39,7 +45,7 @@ const layout = async ({ children, params: { slug } }: { children: ReactNode, par
   if (!subreddit){
     return notFound()
   }
-  const subCount = await db.subscription.count({
+  const memberCount = await db.subscription.count({
     where: {
       subreddit: {
         name: slug,
