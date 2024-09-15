@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import React, { ReactNode } from 'react'
 import { Link } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
+import SubscribeLeaveToggle from '@/components/SubscribeLeaveToggle';
 
 const layout = async ({ children, params: { slug } }: { children: ReactNode, params: {slug : string}  }) => {
   const session = await getAuthSession();
