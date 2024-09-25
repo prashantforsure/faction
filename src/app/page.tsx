@@ -69,7 +69,8 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <Suspense fallback={<div>Loading feed...</div>}>
-                {session ? <CustomFeed /> : <GeneralFeed />}
+              //make this uncomment
+                {/* {session ? <CustomFeed /> : <GeneralFeed />} */}
               </Suspense>
             </CardContent>
           </Card>

@@ -1,5 +1,5 @@
 import { authOptions } from '@/lib/auth'
-import { BookOpenText } from 'lucide-react'
+import { BookOpenText, HomeIcon } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
@@ -13,7 +13,7 @@ const Navbar = async () => {
       <div className='container max-w-7xl h-full mx-auto flex items-center justify-between gap-2'>
         {/* logo */}
         <Link href='/' className='flex gap-2 items-center'>
-          
+        <HomeIcon className="h-8 w-8 text-orange-500" />
           <p className='hidden  text-xl text-red-600 font-extrabold  md:block'>Faction</p>
         </Link>
 
