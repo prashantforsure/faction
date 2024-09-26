@@ -9,93 +9,96 @@ import { Loader2 } from 'lucide-react'
 import Post from './Post'
 import { ExtendedPost } from '@/types/db'
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from '@/config'
+import { FC } from 'react'
 
 interface PostFeedProps {
   initialPosts: ExtendedPost[]
   subredditName?: string
 }
-//@ts-ignore
-const PostFeed: React.FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
-  // const lastPostRef = useRef<HTMLElement>(null)
-  // const { ref, entry } = useIntersection({
-  //   root: lastPostRef.current,
-  //   threshold: 1,
-  // })
-  // const { data: session } = useSession()
 
-  // const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-  //   ['infinite-query', subredditName],
-  //   async ({ pageParam = 1 }) => {
-  //     const query =
-  //       `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-  //       (subredditName ? `&subredditName=${subredditName}` : '')
+const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
+  const lastPostRef = useRef<HTMLElement | null>(null) // Correctly typed ref
 
-  //     const { data } = await axios.get(query)
-  //     return data as ExtendedPost[]
-  //   },
-  //   {
-  //     getNextPageParam: (_, pages) => {
-  //       return pages.length + 1
-  //     },
-  //     initialData: { pages: [initialPosts], pageParams: [1] },
-  //   }
-  // )
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  })
 
-  // useEffect(() => {
-  //   if (entry?.isIntersecting) {
-  //     fetchNextPage()
-  //   }
-  // }, [entry, fetchNextPage])
+  const { data: session } = useSession()
 
-  // const posts = data?.pages.flatMap((page) => page) ?? initialPosts
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery<ExtendedPost[], unknown>(
+    ['infinite-query'],
+    async ({ pageParam = 1 }) => {
+      const query =
+        `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
+        (!!subredditName ? `&subredditName=${subredditName}` : '')
 
-  // return (
-  //   <ul className='flex flex-col col-span-2 space-y-6'>
-  //     {posts.map((post, index) => {
-  //       const votesAmt = post.votes.reduce((acc, vote) => {
-  //         if (vote.type === 'UP') return acc + 1
-  //         if (vote.type === 'DOWN') return acc - 1
-  //         return acc
-  //       }, 0)
+      const { data } = await axios.get(query)
+      return data as ExtendedPost[]
+    },
+    {
+      getNextPageParam: (_, pages) => {
+        return pages.length + 1
+      },
+      initialData: { pages: [initialPosts], pageParams: [1] },
+    }
+  )
 
-  //       const currentVote = post.votes.find(
-  //         (vote) => vote.userId === session?.user?.id
-  //       )
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage() // Load more posts when the last post comes into view
+    }
+  }, [entry, fetchNextPage])
 
-  //       if (index === posts.length - 1) {
-  //         return (
-  //           <li key={post.id} ref={ref}>
-  //             <Post
-  //               post={post}
-  //               commentAmt={post.comments.length}
-  //               subredditName={post.subreddit.name}
-  //               votesAmt={votesAmt}
-  //               currentVote={currentVote}
-  //             />
-  //           </li>
-  //         )
-  //       } else {
-  //         return (
-  //           <li key={post.id}>
-  //             <Post
-  //               post={post}
-  //               commentAmt={post.comments.length}
-  //               subredditName={post.subreddit.name}
-  //               votesAmt={votesAmt}
-  //               currentVote={currentVote}
-  //             />
-  //           </li>
-  //         )
-  //       }
-  //     })}
+  const posts = data?.pages.flatMap((page) => page) ?? initialPosts
 
-  //     {isFetchingNextPage && (
-  //       <li className='flex justify-center'>
-  //         <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
-  //       </li>
-  //     )}
-  //   </ul>
-  // )
+  return (
+    <ul className='flex flex-col col-span-2 space-y-6'>
+      {posts.map((post, index) => {
+        const votesAmt = post.votes.reduce((acc, vote) => {
+          if (vote.type === 'UP') return acc + 1
+          if (vote.type === 'DOWN') return acc - 1
+          return acc
+        }, 0)
+
+        const currentVote = post.votes.find(
+          (vote) => vote.userId === session?.user?.id // Optional chaining to avoid undefined errors
+        )
+
+        if (index === posts.length - 1) {
+          // Add a ref to the last post in the list
+          return (
+            <li key={post.id} ref={ref}>
+              <Post
+                post={post}
+                commentAmt={post.comments.length}
+                subredditName={post.subreddit.name}
+                votesAmt={votesAmt}
+                currentVote={currentVote}
+              />
+            </li>
+          )
+        } else {
+          return (
+            <Post
+              key={post.id}
+              post={post}
+              commentAmt={post.comments.length}
+              subredditName={post.subreddit.name}
+              votesAmt={votesAmt}
+              currentVote={currentVote}
+            />
+          )
+        }
+      })}
+
+      {isFetchingNextPage && (
+        <li className='flex justify-center'>
+          <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
+        </li>
+      )}
+    </ul>
+  )
 }
 
 export default PostFeed
