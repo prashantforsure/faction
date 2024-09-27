@@ -1,12 +1,11 @@
 'use client'
+
 import { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
-import { DropdownMenuContent , DropdownMenu, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuItem } from './ui/dropdown-menu'
+import { DropdownMenuContent, DropdownMenu, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuItem } from './ui/dropdown-menu'
 import Link from 'next/link'
-
 import { UserAvatar } from './UserAvatar'
-
-
+import { Settings, LogOut, Rss, PlusCircle } from 'lucide-react'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>
@@ -15,45 +14,61 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user }: UserAccountNavProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="focus:outline-none">
         <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
-          className='h-8 w-8'
+          className="h-8 w-8 ring-2 ring-white hover:ring-gray-300 transition-all duration-200"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='bg-white' align='end'>
-        <div className='flex items-center justify-start gap-2 p-2'>
-          <div className='flex flex-col space-y-1 leading-none'>
-            {user.name && <p className='font-medium'>{user.name}</p>}
+      <DropdownMenuContent className="w-64 bg-white rounded-xl shadow-lg py-1" align="end">
+        <div className="flex items-center gap-3 p-3 border-b border-gray-100">
+          <UserAvatar
+            user={{ name: user.name || null, image: user.image || null }}
+            className="h-8 w-8"
+          />
+          <div className="flex flex-col">
+            {user.name && <p className="font-semibold text-sm">{user.name}</p>}
             {user.email && (
-              <p className='w-[200px] truncate text-sm text-muted-foreground'>
+              <p className="text-xs text-gray-500 truncate">
                 {user.email}
               </p>
             )}
           </div>
         </div>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href='/'>Feed</Link>
+        
+        <DropdownMenuItem asChild className="py-2 px-4 hover:bg-gray-50">
+          <Link href="/" className="flex items-center gap-3">
+            <Rss className="h-4 w-4 text-gray-500" />
+            <span>Feed</span>
+          </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
-          <Link href='/r/create'>Create Community</Link>
+        <DropdownMenuItem asChild className="py-2 px-4 hover:bg-gray-50">
+          <Link href="/r/create" className="flex items-center gap-3">
+            <PlusCircle className="h-4 w-4 text-gray-500" />
+            <span>Create Community</span>
+          </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
-          <Link href='/settings'>Settings</Link>
+        <DropdownMenuItem asChild className="py-2 px-4 hover:bg-gray-50">
+          <Link href="/settings" className="flex items-center gap-3">
+            <Settings className="h-4 w-4 text-gray-500" />
+            <span>Settings</span>
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+
+        <DropdownMenuSeparator className="my-1 border-gray-100" />
+        
         <DropdownMenuItem
-          className='cursor-pointer'
+          className="py-2 px-4 hover:bg-gray-50 cursor-pointer flex items-center gap-3 text-red-500"
           onSelect={(event) => {
             event.preventDefault()
             signOut({
               callbackUrl: `${window.location.origin}/sign-in`,
             })
           }}>
-          Sign out
+          <LogOut className="h-4 w-4" />
+          <span>Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

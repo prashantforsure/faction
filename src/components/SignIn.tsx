@@ -9,7 +9,7 @@ const SignIn = () => {
             <h1 className='text-xl font-bold text-black'>
             Log In
             </h1>
-                <p className='text-medium  text-black'>
+                <p className='text-medium  text-black mr-8'>
                 By continuing, you agree to our User Agreement and acknowledge that you understand the Privacy Policy.
                 </p>
             
