@@ -13,7 +13,6 @@ import { PostCreationRequest, PostValidator } from '@/lib/validators/post'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 
-import '@/styles/editor.css'
 import { uploadFiles } from '@/lib/uploading'
 
 
