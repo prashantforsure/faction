@@ -4,12 +4,12 @@ import UserAuthForm from './UserAuthForm'
 
 const SignUp = () => {
   return (
-    <div className='container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]'>
+    <div className='container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px] mr-16'>
     <div className='flex flex-col space-y-3 text-center '>
         <h1 className='text-xl font-bold text-black'>
         Sign Up
         </h1>
-            <p className='text-medium  text-black'>
+            <p className='text-medium  text-black mr-8'>
             By continuing, you agree to our User Agreement and acknowledge that you understand the Privacy Policy.
             </p>
         

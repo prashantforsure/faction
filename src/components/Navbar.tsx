@@ -14,7 +14,7 @@ const Navbar = async () => {
         {/* logo */}
         <Link href='/' className='flex gap-2 items-center'>
         <HomeIcon className="h-8 w-8 text-orange-500" />
-          <p className='hidden  text-xl text-red-600 font-extrabold  md:block'>Faction</p>
+          <p className='hidden  text-xl text-orange-500 font-extrabold  md:block'>Faction</p>
         </Link>
 
         {/* search bar */}
