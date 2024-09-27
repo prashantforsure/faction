@@ -37,13 +37,6 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
 model User {
   id                String         @id @default(cuid())
@@ -87,19 +80,7 @@ model Subscription {
   @@id([userId, subredditId])
 }
 
-model Post {
-  id          String    @id @default(cuid())
-  title       String
-  content     Json?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    String
-  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
-  subredditId String
-  comments    Comment[] 
-  votes       Vote[]
-}
+
 
 model Comment {
   id        String   @id @default(cuid())
@@ -136,4 +117,26 @@ model CommentVote {
   type      VoteType
 
   @@id([userId, commentId])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String
+  comments    Comment[] 
+  votes       Vote[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

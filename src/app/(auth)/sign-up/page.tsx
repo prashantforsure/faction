@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import SignUp from '@/components/SignUp'
 
-export default function SignInPage() {
+export default function page() {
   return (
     <div className="min-h-screen from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
