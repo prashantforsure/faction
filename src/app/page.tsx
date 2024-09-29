@@ -49,7 +49,7 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
-                {['r/AskBreadit', 'r/funny', 'r/gaming', 'r/pics', 'r/science'].map((community) => (
+                {['r/coding', 'r/funny', 'r/gaming', 'r/pics', 'r/science'].map((community) => (
                   <li key={community} className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-orange-500" />
                     <Link href={`/${community}`} className="text-sm hover:underline">
@@ -104,10 +104,10 @@ export default async function Home() {
                 className={buttonVariants({
                   className: 'w-full',
                 })}
-                href="/submit"
+                href="/community"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Create Post
+                Join community
               </Link>
             </CardContent>
           </Card>

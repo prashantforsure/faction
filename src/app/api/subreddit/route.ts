@@ -1,3 +1,4 @@
+
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { SubredditValidator } from '@/lib/validators/subreddit'
@@ -51,5 +52,26 @@ export async function POST(req: NextRequest) {
      },{
         status: 500
      })
+    }
+}
+
+export async function GET(req: NextRequest) {
+    try {
+        const subreddits = await db.subreddit.findMany({
+            orderBy: { createdAt: 'desc' },
+            take: 20,
+        });
+
+        return NextResponse.json({
+            data: subreddits  
+        });
+    }
+    catch (e) {
+        console.error('Error fetching subreddits:', e);
+        return NextResponse.json({
+            error: "An error occurred while fetching subreddits"
+        }, {
+            status: 500
+        });
     }
 }
