@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button, buttonVariants } from './ui/button'
 import { UserAccountNav } from './UserAccountNav'
-import Logo from './logo'
+import Logo from './Logo'
 
 const Navbar = async () => {
     const session = await getServerSession(authOptions)
