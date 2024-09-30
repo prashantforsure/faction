@@ -1,32 +1,46 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { UserSchema } from "@/lib/validators/profileValidator";
-import { UsernameValidator } from "@/lib/validators/username";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest){
-    try{
+export async function GET(req: NextRequest) {
+    try {
         const session = await getAuthSession();
-        if(!session?.user){
+        if (!session?.user) {
             return NextResponse.json({
-                message: " unauthorised"
-            },{
+                message: "Unauthorized"
+            }, {
                 status: 403
-            })
+            });
         }
        
-        const getuser = await db.user.findFirst({
+        const user = await db.user.findUnique({
             where: {
                 id: session.user.id
             }
-        })
-    }catch(error){
-        console.log(error);
+        });
+
+        if (!user) {
+            return NextResponse.json({
+                message: "User not found"
+            }, {
+                status: 404
+            });
+        }
+        const validatedUser = UserSchema.parse(user);
+
         return NextResponse.json({
-          message: "something went wrong"
-      }, {
-          status: 500
-      }
-      )
+            user: validatedUser
+        }, {
+            status: 200
+        });
+
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({
+            message: "Something went wrong"
+        }, {
+            status: 500
+        });
     }
 }
