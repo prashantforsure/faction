@@ -10,19 +10,52 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MailIcon, MapPinIcon, CalendarIcon, CameraIcon, BookmarkIcon } from 'lucide-react'
 import axios from 'axios'
 
-export default function UserProfile() {
+import ProfilePostsGrid from './ProfilePostGrid'
+
+interface Post {
+  id: string;
+  title: string;
+  content: {
+    blocks: Array<{
+      type: string;
+      data: {
+        text: string;
+      };
+    }>;
+  };
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    username: string;
+  };
+  subreddit: {
+    name: string;
+  };
+  comments: Array<any>;
+  votes: Array<{
+    type: 'UP' | 'DOWN';
+  }>;
+}
+
+
+const UserProfile = () => {
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user');
-        setUser(response.data.user);
+        const [userResponse, postsResponse] = await Promise.all([
+          axios.get('/api/user'),
+          axios.get('/api/user/post')
+        ]);
+        setUser(userResponse.data.user);
+        setPosts(postsResponse.data.posts);
       } catch (err) {
         if (axios.isAxiosError(err)) {
-          setError(err.response?.data?.message || 'An error occurred while fetching the user profile.');
+          setError(err.response?.data?.message || 'An error occurred while fetching user data.');
         } else {
           setError('An unexpected error occurred.');
         }
@@ -32,8 +65,10 @@ export default function UserProfile() {
       }
     };
 
-    fetchUserProfile();
+    fetchUserData();
   }, []);
+
+
   if (loading) {
     return (
       <Card className="w-full max-w-3xl mx-auto">
@@ -107,12 +142,8 @@ export default function UserProfile() {
             <TabsTrigger value="about">About</TabsTrigger>
           </TabsList>
           <TabsContent value="posts" className="mt-4">
-            <div className="grid grid-cols-3 gap-4">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="aspect-square bg-muted rounded-md flex items-center justify-center">
-                  <CameraIcon className="w-8 h-8 text-muted-foreground" />
-                </div>
-              ))}
+            <div className="">
+            <ProfilePostsGrid posts={posts} />
             </div>
           </TabsContent>
           <TabsContent value="saved" className="mt-4">
@@ -135,3 +166,4 @@ export default function UserProfile() {
     </Card>
   )
 }
+export default UserProfile
