@@ -21,6 +21,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64 bg-white rounded-xl shadow-lg py-1" align="end">
+        <Link href='/profile'>
         <div className="flex items-center gap-3 p-3 border-b border-gray-100">
           <UserAvatar
             user={{ name: user.name || null, image: user.image || null }}
@@ -35,6 +36,8 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             )}
           </div>
         </div>
+        </Link>
+       
         
         <DropdownMenuItem asChild className="py-2 px-4 hover:bg-gray-50">
           <Link href="/" className="flex items-center gap-3">
