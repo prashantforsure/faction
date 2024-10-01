@@ -136,9 +136,9 @@ const UserProfile = () => {
         </div>
         
         <Tabs defaultValue="posts" className="mt-8">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="posts">Posts</TabsTrigger>
-            <TabsTrigger value="saved">Saved</TabsTrigger>
+            
             <TabsTrigger value="about">About</TabsTrigger>
           </TabsList>
           <TabsContent value="posts" className="mt-4">
@@ -146,15 +146,7 @@ const UserProfile = () => {
             <ProfilePostsGrid posts={posts} />
             </div>
           </TabsContent>
-          <TabsContent value="saved" className="mt-4">
-            <div className="grid grid-cols-3 gap-4">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="aspect-square bg-muted rounded-md flex items-center justify-center">
-                  <BookmarkIcon className="w-8 h-8 text-muted-foreground" />
-                </div>
-              ))}
-            </div>
-          </TabsContent>
+        
           <TabsContent value="about" className="mt-4">
             <p className="text-muted-foreground">
               This is a brief bio about the user. They can share information about their interests,

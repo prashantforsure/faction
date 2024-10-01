@@ -1,8 +1,11 @@
+import GuidelinesAndTerms from '@/components/GuidelinesAndTerms'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+    <GuidelinesAndTerms />
+    </>
   )
 }
 
