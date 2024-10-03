@@ -36,5 +36,18 @@ try{
                 about: about
             }
         })
+        return NextResponse.json({
+            updateAbout
+        },{
+            status: 200
+        }
+    )
+}catch(error){
+    console.error(error);
+    return NextResponse.json({
+        message: "Something went wrong"
+    }, {
+        status: 500
+    });
 }
 }
