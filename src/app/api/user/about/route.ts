@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { UserSchema } from "@/lib/validators/profileValidator";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function UPDATE(req: NextRequest) {
+export async function PUT(req: NextRequest) {
 try{
     const session = await getAuthSession();
         if (!session?.user) {

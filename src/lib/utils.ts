@@ -1,7 +1,7 @@
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { formatDistanceToNowStrict } from 'date-fns'
-import locale from 'date-fns/locale/en-US'
+import { enUS } from 'date-fns/locale'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -49,7 +49,7 @@ export function formatTimeToNow(date: Date): string {
   return formatDistanceToNowStrict(date, {
     addSuffix: true,
     locale: {
-      ...locale,
+      ...enUS,
       formatDistance,
     },
   })
