@@ -11,7 +11,8 @@
     "lint:fix": "eslint src/ --fix",
     "lint:types": "tsc --noEmit",
     "lint:all": "npm run lint:strict && npm run lint:types",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
