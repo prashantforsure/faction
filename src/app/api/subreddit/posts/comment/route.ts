@@ -3,7 +3,6 @@ import { db } from '@/lib/db'
 import { CommentValidator } from '@/lib/validators/comment';
 import { NextRequest, NextResponse } from 'next/server'
 
-import { string, z } from 'zod'
 
 export async function POST(req: NextRequest){
     try{

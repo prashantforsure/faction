@@ -3,7 +3,6 @@ import { db } from '@/lib/db'
 import { CommentVoteValidator, PostVoteValidator } from '@/lib/validators/vote';
 import { NextRequest, NextResponse } from 'next/server'
 
-import { z } from 'zod'
 
 export async function PATCH(req: NextRequest){
     try{
